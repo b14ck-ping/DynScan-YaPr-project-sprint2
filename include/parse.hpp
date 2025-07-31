@@ -33,17 +33,10 @@ constexpr std::expected<T, scan_error>  parse_value(std::string_view &input)
 }
 
 template<typename T>
-requires std::same_as<T, std::string_view>
+requires std::convertible_to<T, std::string_view> || std::convertible_to<T, std::string>
 constexpr std::expected<T, scan_error>  parse_value(std::string_view &input)
 {
-    return input;
-}
-
-template<typename T>
-requires std::same_as<T, std::string>
-constexpr std::expected<T, scan_error>  parse_value(std::string_view &input)
-{
-    return std::string{input};
+    return static_cast<T>(input);
 }
 
 // Функция для парсинга значения с учетом спецификатора формата
