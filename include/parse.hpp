@@ -60,7 +60,7 @@ constexpr std::expected<T, scan_error> parse_value_with_format(std::string_view 
 
     // Добавить проверку сответствия формата и типа Т 
     if ((fmt_type == FMT_INTEGRAL && !std::is_integral<T>()) ||
-        (fmt_type == FMT_STRING && !(std::is_same<T, std::string>() || std::is_same<T, std::string_view>())) ||
+        (fmt_type == FMT_STRING && !(std::is_convertible<T, std::string_view>() || std::is_convertible<T, std::string>())) ||
         (fmt_type == FMT_NATURAL && !(std::is_integral<T>() && std::is_unsigned<T>())) ||
         (fmt_type == FMT_FLOATING && !std::is_floating_point<T>()))
             return std::unexpected(scan_error{std::string("Format specifier \"{" + std::string(fmt) + "}\" does not match template type\n\r")});
